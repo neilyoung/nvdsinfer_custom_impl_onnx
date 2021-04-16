@@ -114,7 +114,9 @@ bool NvDsInferParseCustomONNX (std::vector<NvDsInferLayerInfo> const &outputLaye
     object.top = coord[1] * networkInfo.height;
     object.width = coord[2] * networkInfo.width - coord[0] * networkInfo.width;
     object.height = coord[3] * networkInfo.height - coord[1] * networkInfo.height;
-    std::cerr << "id: " << object.classId << ", conf: " <<  object.detectionConfidence << ", left: " << object.left << ", top: " << object.top << ", width: " << object.width << ", height: " << object.height << std::endl;
+    
+    // std::cout << "id: " << object.classId << ", conf: " <<  object.detectionConfidence << ", left: " << object.left << ", top: " << object.top << ", width: " << object.width << ", height: " << object.height << std::endl;
+    
     objectList.push_back(object);
   }
   
