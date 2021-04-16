@@ -9,9 +9,9 @@ This project has been derived from the `nvdsinfer_custom_impl_ssd` sample projec
 - Link to the lib from your PGIE config:
 
 ```bash
-output-blob-names: "boxes;scores"
-parse-bbox-func-name: "NvDsInferParseCustomONNX"
-custom-lib-path: "/path/to/lib/libnvdsinfer_custom_impl_onnx.so"
+output-blob-names="boxes;scores"
+parse-bbox-func-name="NvDsInferParseCustomONNX"
+custom-lib-path="/path/to/lib/libnvdsinfer_custom_impl_onnx.so"
 ```
 
 - No warranty
