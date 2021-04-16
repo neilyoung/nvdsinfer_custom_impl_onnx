@@ -93,15 +93,15 @@ bool NvDsInferParseCustomONNX (std::vector<NvDsInferLayerInfo> const &outputLaye
     for (uint32_t m = 1; m < mNumClasses; m++) {
       const float score = conf[n * mNumClasses + m];
       if (score < detectionParams.perClassThreshold[m])
-					continue;
+          continue;
       if (score > maxScore) {
-					maxScore = score;
-					maxClass = m;
-			}
+          maxScore = score;
+          maxClass = m;
+      }
     }
     // check if there was a detection
-		if (maxClass <= 0)
-				continue; 
+    if (maxClass <= 0)
+        continue; 
 
     // std::cout << " maxScore " << maxScore << " maxClass " << maxClass  << std::endl;
 
