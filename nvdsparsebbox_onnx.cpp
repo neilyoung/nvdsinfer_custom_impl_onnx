@@ -55,7 +55,7 @@ bool NvDsInferParseCustomONNX (std::vector<NvDsInferLayerInfo> const &outputLaye
     for (unsigned int i = 0; i < outputLayersInfo.size(); i++) {
       if (strcmp(outputLayersInfo[i].layerName, "boxes") == 0) {
         bboxLayerIndex = i;
-        getDimsCHWFromDims(bboxLayerDims, outputLayersInfo[bboxLayerIndex].dims);
+        getDimsCHWFromDims(bboxLayerDims, outputLayersInfo[bboxLayerIndex].inferDims);
         break;
       }
     }
@@ -90,11 +90,11 @@ bool NvDsInferParseCustomONNX (std::vector<NvDsInferLayerInfo> const &outputLaye
     uint32_t maxClass = 0;
     float    maxScore = -1000.0f;
 
-    for (uint32_t m=1; m<mNumClasses; m++) {
+    for (uint32_t m = 1; m < mNumClasses; m++) {
       const float score = conf[n * mNumClasses + m];
       if (score < detectionParams.perClassThreshold[m])
 					continue;
-      if( score > maxScore ) {
+      if (score > maxScore) {
 					maxScore = score;
 					maxClass = m;
 			}
@@ -103,7 +103,10 @@ bool NvDsInferParseCustomONNX (std::vector<NvDsInferLayerInfo> const &outputLaye
 		if (maxClass <= 0)
 				continue; 
 
+    // std::cout << " maxScore " << maxScore << " maxClass " << maxClass  << std::endl;
+
     const float* coord = bbox + n * numCoord;
+
     NvDsInferObjectDetectionInfo object;
     object.classId = maxClass;
     object.detectionConfidence = maxScore;
@@ -111,6 +114,7 @@ bool NvDsInferParseCustomONNX (std::vector<NvDsInferLayerInfo> const &outputLaye
     object.top = coord[1] * networkInfo.height;
     object.width = coord[2] * networkInfo.width - coord[0] * networkInfo.width;
     object.height = coord[3] * networkInfo.height - coord[1] * networkInfo.height;
+    std::cerr << "id: " << object.classId << ", conf: " <<  object.detectionConfidence << ", left: " << object.left << ", top: " << object.top << ", width: " << object.width << ", height: " << object.height << std::endl;
     objectList.push_back(object);
   }
   
